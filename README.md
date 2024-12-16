@@ -1,12 +1,8 @@
-<p align="center">
-  <style>
-    @import url('https://v1.fontapi.ir/css/SahelFD');
-    </style>
+<p align="center" style="background: #00A693;text-align: center;">
   <img src="https://amirivojdan.io/shekar_logo.svg" alt="drawing" width="150"/>
-  <h2 style="font-family: Sahel FD, sans-serif;" dir="auto" align="center" >فارسی شکر است!</h2>
+  <h1 align="center" >فارسی شکر است!</h1>
 </p>
 
-# Simplifying Persian NLP for Everyone
 
 ## Installation
 
