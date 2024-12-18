@@ -2,6 +2,7 @@
 ![Banner](assets/banner.png)
 
 # Simplifying Persian NLP for Everyone
+![GitHub License](https://img.shields.io/github/license/amirivojdan/shekar)
 
 ## Installation
 
