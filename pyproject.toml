@@ -13,7 +13,9 @@ requires-python = ">=3.8"
 dependencies = []
 
 [dependency-groups]
-dev = ["pytest>=8.3.4"]
+dev = [
+    "pytest>=8.3.4",
+]
 
 [project.urls]
 Homepage = "https://github.com/amirivojdan/shekar"
