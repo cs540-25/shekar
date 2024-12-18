@@ -4,10 +4,19 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Install Dependencies
-      - uses: actions/checkout@v4
-        run: pip install uv
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install UV
+        run: pip install uv 
+
       - name: Build
-        run: uv build 
-      - name: Run Tests
-        run: uv run pytest
+        run: uv build
+
+      - name: Test
+        run: uv pytest
