@@ -1,0 +1,13 @@
+name: Release
+on: push
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Dependencies
+      - uses: actions/checkout@v2
+        run: pip install uv
+        run: uv install
+      - name: Run Tests
+        run: uv run pytest
