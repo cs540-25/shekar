@@ -1,6 +1,7 @@
 import re
 
-def is_informal(text, threshold=1):
+
+def is_informal(text, threshold=1) -> bool:
     """
     Classifies Persian text into formal or informal based on predefined regex patterns and counts the number of informal matches.
     This function is an implementation of:
@@ -10,7 +11,7 @@ def is_informal(text, threshold=1):
         text (str): The input Persian text.
 
     Returns:
-        tuple: (True or False, number of informal matches)
+        tuple: True or False
     """
     informal_patterns = [
         r"(?:ن?می‌? ?|ب|ن)(?:[یا]فشون|پاشون|پرورون|پرون|پوسون|پوشون|پیچون|تابون|تازون|ترسون|ترکون|تکون|تونست|جنبون|جوشون|چپون|چربون|چرخون|چرون|چسبون|چشون|چکون|چلون|خارون|خراشون|خشکون|خندون|خوابون|خورون|خون|خیسون|درخشون|رسون|رقصون|رنجون|رون|دون|سابون|ستون|سوزون|ش|شورون|غلتون|فهمون|کوبون|گذرون|گردون|گریون|گزین|گسترون|گنجون|لرزون|لغزون|لمبون|مالون|ا?نداز|نشون|هراسون|وزون)(?:م|ی|ه|یم|ید|ن)",
@@ -24,16 +25,14 @@ def is_informal(text, threshold=1):
         r"(?:ازش|اونه?ا|ایشون|اینجوری?|این[وه]|بازم|باهاش|براتون|برام|بهش|بی‌خیال|تموم|چ?جوری|چیه|دیگه|کدوم|مونده|زبون|همینه)",
         r"(?:آروم|آشیونه|آشیون|اومدم|برم|اونه|اون‌|ایرونی|اینا|بادمجون|بدونیم|بذار|بریم|بشیم|بشین|بنداز|بچگونه|بیابون|بیگیر|تهرون|تونستم|خمیردندون|خودتون|خودشون|خودمونی|خودمون)",
         r"(?:خوروندن|خونه|خیابون|داره|داروخونه|داغون|دخترونه|دندون|رودخونه|زمونه|زنونه|سوزوندن|قلیون|مردونه|مهمون|موندم|میام|میونه|میون|می‌دونیم|نتونستم|ندونیم)",
-        r"(?:نذار|نریم|نسوزوندن|نشونه|نشون|نموندم|نمیاد|نمیام|نمیان|نمیایم|نمیاین|نمیای|نمیدونید|نمی‌دونیم|نمی‌دونین|نیستن|نیومدم|هستن|همزبون|همشون|پسرونه|پشت بوم|کوچیک|تمومه)"
+        r"(?:نذار|نریم|نسوزوندن|نشونه|نشون|نموندم|نمیاد|نمیام|نمیان|نمیایم|نمیاین|نمیای|نمیدونید|نمی‌دونیم|نمی‌دونین|نیستن|نیومدم|هستن|همزبون|همشون|پسرونه|پشت بوم|کوچیک|تمومه)",
     ]
 
     match_count = 0
 
     for pattern in informal_patterns:
         matches = re.findall(pattern, text)
-        print(matches)
         match_count += len(matches)
 
     classification = True if match_count >= threshold else False
-    return classification, match_count
-
+    return classification

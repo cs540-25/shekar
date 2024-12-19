@@ -25,4 +25,28 @@ To install the package, you can use `pip`. Run the following command:
 ```bash
 pip install shekar
 ```
+
+
+## Usage
+
+Here is a simple example of how to use the `shekar` package:
+
+```python
+from shekar.utils import is_informal
+from shekar.preprocessing import unify_characters
+
+# Sample text
+text = "ۿدف ما ػمګ بۀ ێڪډيڱڕ أښټ"
+
+# Perform text processing
+processed_text = unify_characters(text)
+
+print(processed_text)
+```
+
+```output
+هدف ما کمک به یکدیگر است
+```
+ 
+
  
