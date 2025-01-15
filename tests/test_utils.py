@@ -1,4 +1,3 @@
-import pytest
 from shekar.utils import is_informal
 
 
@@ -10,7 +9,3 @@ def test_is_informal():
     input_text = "دیگه چه خبر؟"
     expected_output = True
     assert is_informal(input_text) == expected_output
-
-
-if __name__ == "__main__":
-    pytest.main()

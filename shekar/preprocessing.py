@@ -3,9 +3,12 @@ import re
 
 def unify_characters(text, select_resemblings=True) -> str:
     """Unify different representations of the same characters.\n
-    Parameters:
+    Args:
         text (str): The input text.
         select_resemblings (bool): If True, unify characters that are similar in shape but not identical. Useful in OCR generated text post-processing.
+
+    Returns:
+        str: The text with unified characters.
 
     Reference: https://en.wikipedia.org/wiki/List_of_Unicode_characters#Semitic_languages"""
 
