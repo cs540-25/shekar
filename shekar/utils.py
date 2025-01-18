@@ -1,4 +1,10 @@
 import re
+import polars as pl
+from polars import DataFrame
+from pathlib import Path
+
+data_root_path = Path(__file__).parent / "data"
+words_path_parquet = data_root_path / "words.parquet"
 
 
 def is_informal(text, threshold=1) -> bool:
@@ -36,3 +42,8 @@ def is_informal(text, threshold=1) -> bool:
 
     classification = True if match_count >= threshold else False
     return classification
+
+
+def load_words() -> DataFrame:
+    df = pl.read_parquet(words_path_parquet)
+    return df

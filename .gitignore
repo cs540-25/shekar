@@ -9,3 +9,9 @@ wheels/
 # Virtual environments
 .venv
 .pytest_cache
+
+# Jupyter Notebook
+.ipynb_checkpoints
+notebooks/
+
+site/
