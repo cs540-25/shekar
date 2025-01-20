@@ -1,5 +1,4 @@
 import regex as re
-from unicodedata import normalize as ucnorm
 
 
 class Normalizer:
