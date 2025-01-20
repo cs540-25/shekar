@@ -21,9 +21,15 @@ jobs:
               requirements**.txt
               pyproject.toml
 
-      - name: Run tests
-        run: uv pip install --system pytest
+      - name: setup venv
+        run: uv venv
 
-      - name: Run tests
+      - name: Install Dependencies
+        run: uv pip install -r pyproject.toml
+
+      - name: Install Pytest
+        run: uv pip install pytest
+
+      - name: Run Tests
         run: uv run pytest
         
