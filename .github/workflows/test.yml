@@ -22,5 +22,8 @@ jobs:
               pyproject.toml
   
       - name: Build release distributions
+        run: uv build
+
+      - name: Run tests
         run: uv run pytest
         
