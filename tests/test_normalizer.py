@@ -106,6 +106,18 @@ def test_spacing_corrections(normalizer):
     expected_output = "ناصر گفت: «من می‌روم.»"
     assert normalizer.normalize(input_text) == expected_output
 
+    input_text = "با کی داری حرف می زنی؟"
+    expected_output = "با کی داری حرف می زنی؟"
+    assert normalizer.normalize(input_text) == expected_output
+
+    input_text = "من می‌روم.تو نمی‌آیی؟"
+    expected_output = "من می‌روم. تو نمی‌آیی؟"
+    assert normalizer.normalize(input_text) == expected_output
+
+    input_text = "به نکته ریزی اشاره کردی!"
+    expected_output = "به نکته ریزی اشاره کردی!"
+    assert normalizer.normalize(input_text) == expected_output
+
 
 def test_remove_extra_spaces(normalizer):
     input_text = "این  یک  تست  است"

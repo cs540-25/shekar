@@ -233,7 +233,7 @@ class Normalizer:
         return text
 
     def space_correction(self, sentence):
-        # copied from ParsiNorm
+        # copied from ParsiNorm with
         # This Function is a mixture of HAZM and ParsiVar Features
 
         sentence = re.sub(r"^(بی|می|نمی)( )", r"\1‌", sentence)  # verb_prefix
@@ -247,12 +247,17 @@ class Normalizer:
             r"‌\2\3",
             sentence,
         )
-        complex_word_suffix_pattern = (
-            r"( )(طلبان|طلب|گرایی|گرایان|شناس|شناسی|گذاری|گذار|گذاران|شناسان|گیری|پذیری|بندی|آوری|سازی|"
-            r"بندی|کننده|کنندگان|گیری|پرداز|پردازی|پردازان|آمیز|سنجی|ریزی|داری|دهنده|آمیز|پذیری"
-            r"|پذیر|پذیران|گر|ریز|ریزی|رسانی|یاب|یابی|گانه|گانه‌ای|انگاری|گا|بند|رسانی|دهندگان|دار)( )"
-        )
-        sentence = re.sub(complex_word_suffix_pattern, r"‌\2\3", sentence)
+        # Issue: some suffixes may introduce incorrect spacing!
+        # A more complex solution is needed to fix this issue.
+        # Example: "با کی‌داری حرف می‌زنی؟" <- "با کی داری حرف می‌زنی؟"
+        # Example: "به نکته ریزی اشاره کردی!" -> "به نکته‌ریزی اشاره کردی!"
+
+        # complex_word_suffix_pattern = (
+        #     r"( )(طلبان|طلب|گرایی|گرایان|شناس|شناسی|گذاری|گذار|گذاران|شناسان|گیری|پذیری|بندی|آوری|سازی|"
+        #     r"بندی|کننده|کنندگان|گیری|پرداز|پردازی|پردازان|آمیز|سنجی|ریزی|داری|دهنده|آمیز|پذیری"
+        #     r"|پذیر|پذیران|گر|ریز|ریزی|رسانی|یاب|یابی|گانه|گانه‌ای|انگاری|گا|بند|رسانی|دهندگان|دار)( )"
+        # )
+        # sentence = re.sub(complex_word_suffix_pattern, r"‌\2\3", sentence)
         sentence = re.sub(r' "([^\n"]+)" ', r'"\1"', sentence)
 
         punc_after = r".\.:!،؛؟»\]\)\}"
@@ -267,4 +272,6 @@ class Normalizer:
         sentence = re.sub(
             r"([^ " + punc_before + "])([" + punc_before + "])", r"\1 \2", sentence
         )  # Add space before punctuation
+
+        sentence = self.remove_extra_spaces(sentence)
         return sentence
