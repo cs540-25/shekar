@@ -35,6 +35,23 @@ pip install shekar
 
 ## Usage
 
+### Normalization
+
+```python
+
+from shekar.normalizers import Normalizer
+normalizer = Normalizer()
+
+text = "ۿدف ما ػمګ بۀ ێڪډيڱڕ أښټ"
+text = normalizer.normalize(text) # Output: هدف ما کمک به یکدیگر است
+print(text)
+```
+```output
+هدف ما کمک به یکدیگر است
+```
+
+### Sentence Tokenization
+
 Here is a simple example of how to use the `shekar` package:
 
 ```python

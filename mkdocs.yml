@@ -23,8 +23,8 @@ extra_css:
 
 repo_name: amirivojdan/shekar
 nav:
-  - Home: index.md
-  - Getting Started:
+  - Home: 
+    - Overview: index.md
     - Installation: getting_started/installation.md
     - Quick Start: getting_started/quick_start.md
   - Usage: 
