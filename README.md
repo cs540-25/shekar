@@ -1,5 +1,5 @@
 
-![Banner](https://amirivojdan.io/wp-content/uploads/2025/01/shekar-lib.png)
+![Shekar](https://amirivojdan.io/wp-content/uploads/2025/01/shekar-lib.png)
 
 <p align="center">
     <em>Simplifying Persian NLP for Everyone</em>
