@@ -17,7 +17,7 @@ class SentenceTokenizer:
     """
 
     def __init__(self) -> None:
-        self.pattern = re.compile(r"([!.?⸮؟]+)")
+        self.pattern = re.compile(r"([!.?⸮؟]+)", re.UNICODE)
 
     def tokenize(self, text: str) -> List[str]:
         """
@@ -38,3 +38,14 @@ class SentenceTokenizer:
         if len(tokens) % 2 == 1 and tokens[-1].strip():
             sentences.append(tokens[-1].strip())
         return sentences
+
+
+class WordTokenizer:
+    pattern = re.compile(r"\p{L}+", re.UNICODE)
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def tokenize(cls, text):
+        return cls.pattern.findall(text)

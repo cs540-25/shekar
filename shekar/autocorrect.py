@@ -1,48 +1,74 @@
-from shekar.utils import load_words
-from typing import List
+from collections import Counter
+from shekar.tokenizers import WordTokenizer
 
 
 class AutoCorrect:
-    def __init__(self):
-        self.words = load_words()
+    _letters = "آابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهی"
 
-    def __generate_n_edits(self, word: str, n: int) -> List[str]:
-        """
-        Generates all possible edits of a word by applying n edits.
+    def __init__(self, words: Counter):
+        self.tokenizer = WordTokenizer()
+        self.n_words = sum(words.values())
+        self.words = {word: freq / self.n_words for word, freq in words.items()}
 
-        Args:
-            word (str): The input word to generate edits for.
-            n (int): The number of edits to apply.
+    @classmethod
+    def generate_1edits(cls, word):
+        deletes = [word[:i] + word[i + 1 :] for i in range(len(word))]
+        inserts = [
+            word[:i] + c + word[i:] for i in range(len(word) + 1) for c in cls._letters
+        ]
+        replaces = [
+            word[:i] + c + word[i + 1 :] for i in range(len(word)) for c in cls._letters
+        ]
+        transposes = [
+            word[:i] + word[i + 1] + word[i] + word[i + 2 :]
+            for i in range(len(word) - 1)
+        ]
+        return set(deletes + inserts + replaces + transposes)
 
-        Returns:
-            List[str]: A list of all possible edits of the input word.
-        """
+    @classmethod
+    def generate_n_edits(cls, word, n=1):
+        edits_1 = cls.generate_1edits(word)
+        if n == 1:
+            return edits_1
+        else:
+            edits_n = set()
+            for edit in edits_1:
+                edits_n |= cls.generate_n_edits(edit, n=n - 1)
+            return edits_n
 
-    def __known(self, words: List[str]) -> List[str]:
-        """
-        Filters the list of words to return only the known words.
+    def correct(self, word, n=5):
+        suggestions = []
+        if word in self.words:
+            suggestions.append((word, self.words[word]))
 
-        Args:
-            words (List[str]): A list of words to filter.
+        suggestions += sorted(
+            [
+                (w, self.words[w])
+                for w in self.generate_n_edits(word, n=1)
+                if w in self.words
+            ],
+            key=lambda x: x[1],
+            reverse=True,
+        )
+        suggestions += sorted(
+            [
+                (w, self.words[w])
+                for w in self.generate_n_edits(word, n=2)
+                if w in self.words
+            ],
+            key=lambda x: x[1],
+            reverse=True,
+        )
 
-        Returns:
-            List[str]: A list of known words.
-        """
+        seen = set()
+        unique_suggestions = []
+        for suggestion in suggestions:
+            if suggestion[0] not in seen:
+                unique_suggestions.append(suggestion[0])
+            seen.add(suggestion[0])
 
-    def correct(self, word: str, top_n: int = 5, n_edits: int = 3) -> List[str]:
-        """
-        Corrects the input word by returning the top n most similar words from the dictionary.
+        return unique_suggestions[:n]
 
-        Args:
-            word (str): The input word to be corrected.
-            top_n (int): The number of most similar words to return.
-
-        Returns:
-            List[str]: A list of the top n most similar words from the dictionary.
-
-        Example:
-            >>> corrector = AutoCorrect()
-            >>> word = "خونه"
-            >>> corrector.correct(word)
-            ['خون', 'خانه', 'جون', 'دونه', 'خو']
-        """
+    def correct_text(self, text):
+        tokens = self.tokenizer.tokenize(text)
+        return " ".join(self.correct(token)[0] for token in tokens)
