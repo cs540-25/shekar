@@ -5,10 +5,26 @@ from shekar.tokenizers import WordTokenizer
 class AutoCorrect:
     _letters = "آابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهی"
 
-    def __init__(self, words: Counter):
+    def __init__(
+        self,
+        n_edit=2,
+        words: Counter = None,
+    ):
+        """
+        Initialize the AutoCorrect instance.
+        Args:
+            n_edit (int, optional): The maximum number of edits allowed for a word. Defaults to 2.
+            words (Counter, optional): A Counter object containing words and their frequencies. if None, the default words will be loaded. Defaults to None.
+        """
+
+        if words is None:
+            # Load the default words from data directory
+            pass
+
         self.tokenizer = WordTokenizer()
         self.n_words = sum(words.values())
         self.words = {word: freq / self.n_words for word, freq in words.items()}
+        self.n_edit = n_edit
 
     @classmethod
     def generate_1edits(cls, word):
@@ -36,29 +52,21 @@ class AutoCorrect:
                 edits_n |= cls.generate_n_edits(edit, n=n - 1)
             return edits_n
 
-    def correct(self, word, n=5):
+    def correct(self, word, n_best=5):
         suggestions = []
         if word in self.words:
             suggestions.append((word, self.words[word]))
 
-        suggestions += sorted(
-            [
-                (w, self.words[w])
-                for w in self.generate_n_edits(word, n=1)
-                if w in self.words
-            ],
-            key=lambda x: x[1],
-            reverse=True,
-        )
-        suggestions += sorted(
-            [
-                (w, self.words[w])
-                for w in self.generate_n_edits(word, n=2)
-                if w in self.words
-            ],
-            key=lambda x: x[1],
-            reverse=True,
-        )
+        for n in range(1, self.n_edit + 1):
+            suggestions += sorted(
+                [
+                    (w, self.words[w])
+                    for w in self.generate_n_edits(word, n=n)
+                    if w in self.words
+                ],
+                key=lambda x: x[1],
+                reverse=True,
+            )
 
         seen = set()
         unique_suggestions = []
@@ -67,7 +75,7 @@ class AutoCorrect:
                 unique_suggestions.append(suggestion[0])
             seen.add(suggestion[0])
 
-        return unique_suggestions[:n]
+        return unique_suggestions[:n_best]
 
     def correct_text(self, text):
         tokens = self.tokenizer.tokenize(text)

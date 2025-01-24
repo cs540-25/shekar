@@ -41,7 +41,7 @@ class SentenceTokenizer:
 
 
 class WordTokenizer:
-    pattern = re.compile(r"\p{L}+", re.UNICODE)
+    pattern = re.compile(r"\b\w+\b|\u200c\w+|\w+\u200c|[^ \w]", re.UNICODE)
 
     def __init__(self):
         pass
