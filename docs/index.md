@@ -70,3 +70,26 @@ for sentence in sentences:
 هدف ما کمک به یکدیگر است!
 ما می‌توانیم با هم کار کنیم.
 ```
+
+
+### Word Embeddings
+
+A complete example of using embeddings:
+
+```python
+
+from shekar.embeddings import Embedding
+
+# Load pre-trained embeddings
+embedding = Embedding(model_name="fasttext-d100-w10-cbow-blogs")
+
+# Retrieve word vector
+word = "کتاب"
+vector = embedding[word]
+print(f"Vector for {word}: {vector}")
+
+# Find similar words
+similar_words = embedding.most_similar(word, topn=5)
+print(f"Words similar to {word}: {similar_words}")
+
+```

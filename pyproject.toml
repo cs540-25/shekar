@@ -4,13 +4,16 @@ build-backend = "hatchling.build"
 
 [project]
 name = "shekar"
-version = "0.1.8"
+version = "0.1.9"
 description = "Simplifying Persian NLP for Everyone"
 readme = "README.md"
 license = "MIT"
 authors = [{ name = "Ahmad Amirivojdan", email = "amirivojdan@gmail.com" }]
 requires-python = ">=3.8"
-dependencies = ["regex>=2024.11.6"]
+dependencies = [
+    "gensim>=4.3.3",
+    "regex>=2024.11.6",
+]
 
 [dependency-groups]
 dev = [
