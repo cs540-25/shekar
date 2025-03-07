@@ -1668,11 +1668,12 @@ wheels = [
 
 [[package]]
 name = "shekar"
-version = "0.1.9"
+version = "0.1.10"
 source = { editable = "." }
 dependencies = [
     { name = "gensim" },
     { name = "regex" },
+    { name = "requests" },
 ]
 
 [package.dev-dependencies]
@@ -1689,6 +1690,7 @@ dev = [
 requires-dist = [
     { name = "gensim", specifier = ">=4.3.3" },
     { name = "regex", specifier = ">=2024.11.6" },
+    { name = "requests", specifier = ">=2.32.3" },
 ]
 
 [package.metadata.requires-dev]
