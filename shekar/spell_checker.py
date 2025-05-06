@@ -1,10 +1,9 @@
 from collections import Counter
 from shekar.tokenizers import WordTokenizer
+from shekar import utils
 
 
-class AutoCorrect:
-    _letters = "آابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهی"
-
+class SpellChecker:
     def __init__(
         self,
         n_edit=2,
@@ -30,10 +29,14 @@ class AutoCorrect:
     def generate_1edits(cls, word):
         deletes = [word[:i] + word[i + 1 :] for i in range(len(word))]
         inserts = [
-            word[:i] + c + word[i:] for i in range(len(word) + 1) for c in cls._letters
+            word[:i] + c + word[i:]
+            for i in range(len(word) + 1)
+            for c in utils.persian_letters
         ]
         replaces = [
-            word[:i] + c + word[i + 1 :] for i in range(len(word)) for c in cls._letters
+            word[:i] + c + word[i + 1 :]
+            for i in range(len(word))
+            for c in utils.persian_letters
         ]
         transposes = [
             word[:i] + word[i + 1] + word[i] + word[i + 2 :]

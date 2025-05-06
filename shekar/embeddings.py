@@ -6,7 +6,7 @@ import shutil
 from pathlib import Path
 
 
-class Embedding:
+class Embedder:
     available_models = {
         "fasttext-d300-w5-cbow-naab": "https://amirivojdan.io/shekar-data/fasttext_d300_w5_cbow_naab.vec.gz",
         "fasttext-d100-w10-cbow-blogs": "https://amirivojdan.io/shekar-data/fasttext_d100_w10_cbow_blogs.vec.gz",
@@ -118,5 +118,5 @@ class Embedding:
 
 
 if __name__ == "__main__":
-    emb = Embedding()
+    emb = Embedder()
     print(emb.model.doesnt_match("گل درخت ماشین سنگ".split()))

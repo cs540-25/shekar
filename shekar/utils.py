@@ -1,8 +1,33 @@
 import re
 from pathlib import Path
+import polars as pl
 
 data_root_path = Path(__file__).parent / "data"
-words_path_parquet = data_root_path / "words.parquet"
+
+vocab_csv_path = data_root_path / "vocab.csv"
+vocab_parquet_path = data_root_path / "vocab.parquet"
+verbs_csv_path = data_root_path / "verbs.csv"
+verbs_parquet_path = data_root_path / "verbs.parquet"
+stopwords_csv_path = data_root_path / "stopwords.csv"
+stopwords_parquet_path = data_root_path / "stopwords.parquet"
+
+
+diacritics = "ًٌٍَُِّْ"
+persian_letters = "آابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهی" + "ءؤۀأئ"
+persian_digits = "۰۱۲۳۴۵۶۷۸۹"
+special_signs = "-٪@/#"
+punctuation_singles = ".!؟،:؛"
+punctuation_oppenings = r">{[\(«"
+punctuation_closings = r"<}]\)»"
+punctuations = (
+    punctuation_singles + punctuation_oppenings + punctuation_closings + special_signs
+)
+
+spaces = "\u200c" + " "
+right_to_left_mark = "\u200f"
+arabic_numbers = "٠١٢٣٤٥٦٧٨٩"
+punc_after = r".\.:!،؛؟»\]\)\}"
+punc_before = r"«\[\(\{"
 
 
 def is_informal(text, threshold=1) -> bool:
@@ -40,3 +65,23 @@ def is_informal(text, threshold=1) -> bool:
 
     classification = True if match_count >= threshold else False
     return classification
+
+
+def load_vocab():
+    # Read the vocabulary table from the parquet file using Polars
+    vocab = pl.read_csv(vocab_csv_path)
+    return vocab
+
+
+def load_verbs():
+    verbs = pl.read_csv(verbs_csv_path)
+    return verbs
+
+
+def loadstopwords():
+    stopwords = pl.read_csv(stopwords_csv_path)
+    return stopwords
+
+
+verbs = load_verbs()
+stopwords = loadstopwords()
